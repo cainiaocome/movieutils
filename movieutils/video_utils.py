@@ -103,17 +103,21 @@ def trim_head_and_tail_silence(video_input):
     if head_silence:
         head_silence = head_silence[0]
         start, end = head_silence
-        start = start / 1000
         end = end / 1000
-        end = min(end, 11)
-        start, end = end, duration-(end-start)
+        end = min(end, 11) # 如果第一个silence片段太长就算了
+        start = end # 从第一个silence片段末尾开始
     else:
-        start, end = 0, duration
-    # trim head
-
+        start = 0
+    tail_silence = list(filter(lambda x:(duration-x[1])<2, silence_l))
+    if tail_silence:
+        tail_silence = tail_silence[-1]
+        tail_silence_start = tail_silence[0]
+        end = tail_silence_start
+        end = end / 1000
+    else:
+        end = duration
+    # tail todo
     # max 6 minutes
     end = min(end, start+360)
     return start, end
-    #trim_video(str(tmp_video), start, end, str(video_output))
-    # tail todo
 
