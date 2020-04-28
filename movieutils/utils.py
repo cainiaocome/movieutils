@@ -3,4 +3,6 @@
 import shlex
 import subprocess
 
-pass
+
+def run(cmd):
+    subprocess.run(cmd, shell=True)
