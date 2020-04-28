@@ -26,13 +26,14 @@ def concat(video_inputs, text_l, output_file):
     
     # segments
     for f,subtitle in zip(video_inputs, text_l):
+        after_trim_start, after_trim_end = trim_head_and_tail_silence(f)
         in_file = ffmpeg.input(f)
         in_file_l.append(in_file.video
                          .filter('scale', width=1920, height=-2)
                          .filter('pad', width=1920, height=1080, x='(ow-iw)/2', y='(oh-ih)/2')
-                         .filter('trim', duration=duration)
+                         .filter('trim', start=after_trim_start, end=after_trim_end) 
                          .drawtext(subtitle, fontfile=str(fontfile), fontsize=32, fontcolor='LightGrey'))
-        in_file_l.append(in_file.audio.filter('atrim', duration=duration))
+        in_file_l.append(in_file.audio.filter('atrim', start=after_trim_start, end=after_trim_end))
         
         video_segment = ffmpeg.input(video_segment_path)
         in_file_l += [video_segment.video, video_segment.audio]
@@ -65,7 +66,7 @@ def video_to_audio(video_input, audio_output):
         .compile()
     )
     cmd = [f'{i}' for i in cmd]
-    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(cmd)
 
 def trim_video(video_input, start, end, video_output):
     in_file = ffmpeg.input(video_input)
@@ -82,21 +83,16 @@ def trim_video(video_input, start, end, video_output):
         .compile()
     )
     cmd = [f'{i}' for i in cmd]
-    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(cmd)
     
-def trim_both_silence(video_input, video_output):
+def trim_head_and_tail_silence(video_input):
     silence_thresh = -50
     tmpdir = pathlib.Path(tempfile.gettempdir())
 
-    # copy video_input
-    name = video_input.name
-    tmp_video = tmpdir / name
-    shutil.copyfile(video_input, tmp_video)
-    
     # tmp audio
     tmp_audio = tmpdir / 'tmpaudio.aac'
     # video to audio
-    video_to_audio(str(tmp_video), str(tmp_audio))
+    video_to_audio(str(video_input), str(tmp_audio))
 
     audio = AudioSegment.from_file(tmp_audio)
     duration = audio.duration_seconds # float in seconds
@@ -114,5 +110,7 @@ def trim_both_silence(video_input, video_output):
     else:
         start, end = 0, duration
     # trim head
-    trim_video(str(tmp_video), start, end, str(video_output))
+    return start, end
+    #trim_video(str(tmp_video), start, end, str(video_output))
     # tail todo
+
