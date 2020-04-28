@@ -32,9 +32,11 @@ wget https://fonts.google.com/download?family=Noto%20Sans%20SC -O noto.zip
 dtrx noto.zip --one here
 cp noto/* fonts/
 '''
-cmds = cmds.split()
-for cmd in cmds:
-    run(cmd)
+def do_init_env():
+    cmds = cmds.split()
+    for cmd in cmds:
+        print(cmd)
+        run(cmd)
 
 
 import pathlib

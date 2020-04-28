@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
+from .init import videos_dir, video_prefix_path, video_segment_path
 
-def concat(video_prefix_path, video_segment_path, video_inputs, text_l, output_file):
+def concat(video_inputs, text_l, output_file):
     '''
     video_inputs: video file path list
     text_l: subtitle list for each video
