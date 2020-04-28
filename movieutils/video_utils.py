@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from .config import videos_dir, video_prefix_path, video_segment_path
+from .config import videos_dir, video_prefix_path, video_segment_path, fontfile
 
 def concat(video_inputs, text_l, output_file):
     '''
