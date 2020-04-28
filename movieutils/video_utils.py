@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+import shlex
+import pydub
+import shutil
+import tempfile
+import pathlib
+import ffmpeg
+import subprocess
+
+from pydub import AudioSegment
 from .config import videos_dir, video_prefix_path, video_segment_path, fontfile
 
 def concat(video_inputs, text_l, output_file):
@@ -7,10 +16,6 @@ def concat(video_inputs, text_l, output_file):
     video_inputs: video file path list
     text_l: subtitle list for each video
     '''
-    import pathlib
-    import shlex
-    import ffmpeg
-    from pprint import pprint
 
     duration = 35
     n = len(video_inputs)
@@ -50,10 +55,7 @@ def concat(video_inputs, text_l, output_file):
     cmd = ' '.join([shlex.quote(i) for i in cmd])
     return cmd
 
-
 def video_to_audio(video_input, audio_output):
-    import ffmpeg
-    import subprocess
     cmd = (
         ffmpeg
         .input(video_input)
@@ -63,4 +65,54 @@ def video_to_audio(video_input, audio_output):
         .compile()
     )
     cmd = [f'{i}' for i in cmd]
-    subprocess.run(cmd)
+    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+def trim_video(video_input, start, end, video_output):
+    in_file = ffmpeg.input(video_input)
+    in_file_l = [
+        in_file.video.filter('trim', start=start, end=end),
+        in_file.audio.filter('atrim', start=start, end=end),
+    ]
+
+    cmd = (
+        ffmpeg
+        .concat(*in_file_l, v=1, a=1)
+        .output(video_output)
+        .overwrite_output()
+        .compile()
+    )
+    cmd = [f'{i}' for i in cmd]
+    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    
+def trim_both_silence(video_input, video_output):
+    silence_thresh = -50
+    tmpdir = pathlib.Path(tempfile.gettempdir())
+
+    # copy video_input
+    name = video_input.name
+    tmp_video = tmpdir / name
+    shutil.copyfile(video_input, tmp_video)
+    
+    # tmp audio
+    tmp_audio = tmpdir / 'tmpaudio.aac'
+    # video to audio
+    video_to_audio(str(tmp_video), str(tmp_audio))
+
+    audio = AudioSegment.from_file(tmp_audio)
+    duration = audio.duration_seconds # float in seconds
+
+    silence_l = pydub.silence.detect_silence(audio, silence_thresh=silence_thresh)
+    # head
+    head_silence = list(filter(lambda x:x[0]<2, silence_l))
+    if head_silence:
+        head_silence = head_silence[0]
+        start, end = head_silence
+        start = start / 1000
+        end = end / 1000
+        end = min(end, 11)
+        start, end = end, duration-(end-start)
+    else:
+        start, end = 0, duration
+    # trim head
+    trim_video(str(tmp_video), start, end, str(video_output))
+    # tail todo
