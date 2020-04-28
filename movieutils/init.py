@@ -19,6 +19,7 @@ mkdir -p tmp
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -O ffmpeg.tar.xz
 dtrx ffmpeg.tar.xz --one here
 cp ffmpeg-*-amd64-static/ffmpeg /usr/bin/ffmpeg
+cp ffmpeg-*-amd64-static/ffprobe /usr/bin/ffprobe
 
 mkdir -p videos
 rm -rf videos/*
