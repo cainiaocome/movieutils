@@ -46,6 +46,7 @@ def get_best_video(movie):
             best_video = video
     return best_video
 
+
 def is_translation_available(movie, iso_639_1='zh', iso_3166_1='CN'):
     translations = movie['translations']
     for translation in translations:

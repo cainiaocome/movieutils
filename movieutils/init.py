@@ -21,6 +21,10 @@ dtrx ffmpeg.tar.xz --one here
 cp ffmpeg-*-amd64-static/ffmpeg /usr/bin/ffmpeg
 cp ffmpeg-*-amd64-static/ffprobe /usr/bin/ffprobe
 
+wget https://github.com/timvisee/ffsend/releases/download/v0.2.59/ffsend-v0.2.59-linux-x64-static -O ffsend
+chmod a+x ./ffsend
+mv ./ffsend /usr/local/bin/
+
 mkdir -p videos
 rm -rf videos/*
 
