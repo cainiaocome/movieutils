@@ -34,8 +34,7 @@ dtrx noto.zip --one here
 cp noto/* fonts/
 '''
 
-cmds = cmds.split()
-pprint(cmds)
+cmds = cmds.splitlines()
 for cmd in cmds:
     print(cmd)
     run(cmd)
