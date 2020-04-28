@@ -47,7 +47,6 @@ def concat(video_inputs, text_l, output_file):
     cmd = [f'{i}' for i in cmd]
     print(' '.join([shlex.quote(i) for i in cmd]))
     cmd = ' '.join([shlex.quote(i) for i in cmd])
-    #!{cmd}
     return cmd
 
 
