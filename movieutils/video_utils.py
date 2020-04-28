@@ -110,6 +110,9 @@ def trim_head_and_tail_silence(video_input):
     else:
         start, end = 0, duration
     # trim head
+
+    # max 6 minutes
+    end = min(end, start+360)
     return start, end
     #trim_video(str(tmp_video), start, end, str(video_output))
     # tail todo
