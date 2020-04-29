@@ -1,6 +1,6 @@
 #/usr/bin/env python
 
-import shutils
+import shutil
 import shlex
 import subprocess
 
@@ -9,7 +9,7 @@ def run(cmd):
     subprocess.run(cmd, shell=True)
 
 def rmdir(d):
-    shutils.rmtree(d, ignore_errors=True) 
+    shutil.rmtree(d, ignore_errors=True) 
 
 def ffsend(filepath):
     import shlex
