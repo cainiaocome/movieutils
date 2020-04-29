@@ -8,7 +8,7 @@ import subprocess
 def run(cmd):
     subprocess.run(cmd, shell=True)
 
-def clear_dir(d):
+def rmdir(d):
     shutils.rmtree(d, ignore_errors=True) 
 
 def ffsend(filepath):
