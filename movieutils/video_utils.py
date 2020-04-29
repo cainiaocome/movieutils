@@ -8,7 +8,7 @@ import tempfile
 import pathlib
 import ffmpeg
 import subprocess
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 from pydub import AudioSegment
 from .config import videos_dir, video_prefix_path, video_segment_path, fontfile
@@ -20,7 +20,7 @@ def concat(video_inputs, text_l, output_file):
     '''
 
     n = len(video_inputs)
-    with ThreadPoolExecutor() as pool:
+    with ProcessPoolExecutor() as pool:
         start_end_l = list(pool.map(trim_head_and_tail_silence, video_inputs))
 
     # prefix
