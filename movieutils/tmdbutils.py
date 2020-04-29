@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import traceback
 import tmdbsimple as tmdb
 
 def get_movie_detail(tmdb_movie_id):

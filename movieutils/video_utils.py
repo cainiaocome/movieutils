@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import uuid
 import shlex
 import pydub
 import shutil
@@ -7,6 +8,7 @@ import tempfile
 import pathlib
 import ffmpeg
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
 from pydub import AudioSegment
 from .config import videos_dir, video_prefix_path, video_segment_path, fontfile
@@ -17,16 +19,16 @@ def concat(video_inputs, text_l, output_file):
     text_l: subtitle list for each video
     '''
 
-    duration = 35
     n = len(video_inputs)
+    with ThreadPoolExecutor() as pool:
+        start_end_l = list(pool.map(trim_head_and_tail_silence, video_inputs))
 
     # prefix
     video_prefix = ffmpeg.input(video_prefix_path)
     in_file_l = [video_prefix.video, video_prefix.audio]
     
     # segments
-    for f,subtitle in zip(video_inputs, text_l):
-        after_trim_start, after_trim_end = trim_head_and_tail_silence(f)
+    for f,subtitle,(after_trim_start,after_trim_end) in zip(video_inputs, text_l, start_end_l):
         in_file = ffmpeg.input(f)
         in_file_l.append(in_file.video
                          .filter('scale', width=1920, height=-2)
@@ -90,7 +92,7 @@ def trim_head_and_tail_silence(video_input):
     tmpdir = pathlib.Path(tempfile.gettempdir())
 
     # tmp audio
-    tmp_audio = tmpdir / 'tmpaudio.aac'
+    tmp_audio = tmpdir / f'tmpaudio_{uuid.uuid4()}.aac'
     # video to audio
     video_to_audio(str(video_input), str(tmp_audio))
 
