@@ -3,6 +3,7 @@
 import shutil
 import shlex
 import subprocess
+from datetime import datetime
 
 
 def run(cmd):
@@ -25,3 +26,5 @@ def ffsend(filepath):
         except:
             print(f'ffsend upload {filepath} failed')
             time.sleep(30)
+
+today = f'{datetime.now().date()}'
