@@ -31,6 +31,7 @@ def concat(video_inputs, text_l, output_file):
     for f,subtitle,(after_trim_start,after_trim_end) in zip(video_inputs, text_l, start_end_l):
         in_file = ffmpeg.input(f)
         in_file_l.append(in_file.video
+                         .filter('setsar', sar=1)
                          .filter('scale', width=1920, height=-2)
                          .filter('pad', width=1920, height=1080, x='(ow-iw)/2', y='(oh-ih)/2')
                          .filter('trim', start=after_trim_start, end=after_trim_end) 

@@ -16,7 +16,6 @@ def rmdir(d):
 
 ffsend_urls = []
 def ffsend(filepath):
-    ffsend_basic_auth = 'cainiaocome@gmail.com:t/b+8nESha_#dG*'
     cmd = f'ffsend upload --no-interact --expiry-time 1d {filepath}'.split()
     while True:
         try:
