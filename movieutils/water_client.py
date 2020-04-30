@@ -38,7 +38,8 @@ def upload(inputfile, saddr, password, crt='client.crt', key='client.key'):
     outputfile = p.name
     p = p.read_bytes()
     md5 = hashlib.md5(p).hexdigest()
-    chunks = [p[i:i+4096] for i in range(0, len(p), 4096)]
+    chunk_len = 2**10*32
+    chunks = [p[i:i+chunk_len] for i in range(0, len(p), chunk_len)]
     print(f'{inputfile} len of chunks:', len(chunks))
     jobs = []
     for index, chunk in enumerate(chunks):
