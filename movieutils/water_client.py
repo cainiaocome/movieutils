@@ -7,7 +7,6 @@ import base64
 import pathlib
 import hashlib
 import requests
-import fire
 import queue
 import uuid
 import threading
@@ -57,4 +56,5 @@ def upload(inputfile, saddr, password, crt='client.crt', key='client.key'):
         r = list(pool.map(job_executor, jobs))
     
 if __name__=='__main__':
+    import fire
     fire.Fire(upload)
