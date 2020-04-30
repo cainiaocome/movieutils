@@ -34,4 +34,12 @@ def ffsend_and_delete(filepath):
     p.unlink()
     return url
 
+def last_ffsend():
+    '''
+    write all ffsend_urls to urls.txt and then ffsend this file, return the last one url
+    '''
+    urls_output = pathliab.Path('urls.txt')
+    urls_output.write_text('\n'.join(ffsend_urls))
+    return ffsend_and_delete(urls_output)
+
 today = f'{datetime.now().date()}'
