@@ -12,6 +12,8 @@ def download(key):
     base_url = 'https://www.youtube.com/watch?v='
     url = f'{base_url}{key}'
     cmd = f'youtube-dl --no-part --output ./videos/{key}.%(ext)s {url}'
+    #cmd = f'youtube-dl --no-part --skip-download --all-subs --output ./videos/{key}.%(ext)s {url}'
+    #cmd = f'youtube-dl --no-part --skip-download --write-auto-sub --all-subs --output ./videos/{key}.%(ext)s {url}'
     cmd = shlex.split(cmd)
     print(cmd)
     subprocess.run(cmd)
