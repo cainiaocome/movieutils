@@ -37,6 +37,8 @@ rm -rf fonts/*
 wget https://fonts.google.com/download?family=Noto%20Sans%20SC -O noto.zip
 dtrx noto.zip --one here
 cp noto/* fonts/
+
+!git clone https://github.com/cainiaocome/movieutils.git
 '''
 
 cmds = cmds.splitlines()
