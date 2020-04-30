@@ -17,7 +17,7 @@ def rmdir(d):
 ffsend_urls = []
 def ffsend(filepath):
     cmd = f'ffsend upload --no-interact --expiry-time 1d {filepath}'.split()
-    while True:
+    for try_index in range(7):
         try:
             output = subprocess.check_output(cmd)
             url = output.decode('utf8').strip()
