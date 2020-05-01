@@ -13,13 +13,13 @@ def get_movie_detail(tmdb_movie_id):
     translation = is_translation_available(movie_detail)
     if not translation:
         return None
+    movie_detail['title'] = translation['data']['title']
 
     videos = movie.videos()['results']
     movie_detail['videos'] = videos
     best_video = get_best_video(movie_detail)
     if not bool(best_video):
         return None
-
     key = best_video['key']
     download(key)
     key_video_dict = load_key_video_dict()
