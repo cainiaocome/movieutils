@@ -16,9 +16,8 @@ def download(key):
         f'youtube-dl --no-part --skip-download --write-auto-sub --all-subs --convert-subs ass --output ./autosubs/{key}.%(ext)s {url}'
     ]
     for cmd in cmds:
-        print(cmd)
-        cmd = shlex.split(cmd)
-        subprocess.run(cmd)
+        print(cmd, '\n')
+        subprocess.run(cmd, shell=True)
     
 
 def load_key_sub_dict(language):
