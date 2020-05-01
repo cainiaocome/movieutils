@@ -17,3 +17,7 @@ fontfile = (fonts_dir / 'NotoSansSC-Medium.otf').absolute()
 video_prefix_path = pathlib.Path('./aisiji/cn_0.mp4')
 video_segment_path = pathlib.Path('./aisiji/cn_1.mp4')
 
+
+# subtitles
+subs_dir = pathlib.Path('subs')
+autosubs_dir = pathlib.Path('autosubs')
