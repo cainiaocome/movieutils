@@ -35,7 +35,7 @@ def load_key_autosub_dict(language):
 def get_best_subtitle(key, language):
     key_sub_dict = load_key_sub_dict(language)
     key_autosub_dict = load_key_autosub_dict(language)
-    sub = key_sub_dict.get(key, None):
+    sub = key_sub_dict.get(key, None)
     if sub:
         return sub
     autosub = key_autosub_dict.get(key, None)
