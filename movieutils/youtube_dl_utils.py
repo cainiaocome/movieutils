@@ -17,7 +17,8 @@ def download(key):
     ]
     for cmd in cmds:
         print(cmd)
-        subprocess.run(cmd, shell=True)
+        cmd = shlex.split(cmd)
+        subprocess.run(cmd)
     
 
 def load_key_sub_dict(language):
