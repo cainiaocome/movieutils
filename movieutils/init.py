@@ -28,9 +28,14 @@ mv ./ffsend /usr/local/bin/
 mkdir -p videos
 rm -rf videos/*
 
+mkdir -p subs
+rm -rf subs/*
+
+mkdir -p autosubs
+rm -rf autosubs/*
+
 rm -rf aisiji
 git clone https://github.com/cainiaocome/aisiji.git
-
 
 mkdir -p fonts/
 rm -rf fonts/*

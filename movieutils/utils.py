@@ -5,6 +5,7 @@ import shutil
 import shlex
 import subprocess
 import time
+import uuid
 from datetime import datetime
 
 
@@ -43,3 +44,4 @@ def last_ffsend():
     return ffsend_and_delete(urls_output)
 
 today = f'{datetime.now().date()}'
+run_session_id = str(uuid.uuid4())

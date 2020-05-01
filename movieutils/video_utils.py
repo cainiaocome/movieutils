@@ -13,10 +13,10 @@ from concurrent.futures import ProcessPoolExecutor
 from pydub import AudioSegment
 from .config import videos_dir, video_prefix_path, video_segment_path, fontfile
 
-def concat(video_inputs, text_l, output_file):
+def concat(video_inputs, title_l, output_file):
     '''
     video_inputs: video file path list
-    text_l: subtitle list for each video
+    title_l: title list for each video
     '''
 
     n = len(video_inputs)
@@ -28,7 +28,7 @@ def concat(video_inputs, text_l, output_file):
     in_file_l = [video_prefix.video, video_prefix.audio]
     
     # segments
-    for f,subtitle,(after_trim_start,after_trim_end) in zip(video_inputs, text_l, start_end_l):
+    for f,title,(after_trim_start,after_trim_end) in zip(video_inputs, title_l, start_end_l):
         in_file = ffmpeg.input(f)
         in_file_l.append(in_file.video
                          .filter('scale', width=1920, height=-2)
@@ -36,7 +36,7 @@ def concat(video_inputs, text_l, output_file):
                          .filter('setdar', dar=16/9)
                          .filter('setsar', sar=1)
                          .filter('trim', start=after_trim_start, end=after_trim_end) 
-                         .drawtext(subtitle, fontfile=str(fontfile), fontsize=32, fontcolor='LightGrey'))
+                         .drawtext(title, fontfile=str(fontfile), fontsize=32, fontcolor='LightGrey'))
         in_file_l.append(in_file.audio.filter('atrim', start=after_trim_start, end=after_trim_end))
         
         video_segment = ffmpeg.input(video_segment_path)
@@ -48,7 +48,8 @@ def concat(video_inputs, text_l, output_file):
     
     cmd = (
         ffmpeg
-        .concat(*in_file_l, n=n, v=1, a=1)
+        #.concat(*in_file_l, n=n, v=1, a=1)
+        .concat(*in_file_l, v=1, a=1)
         .output(output_file)
         .overwrite_output()
         .compile()
