@@ -11,12 +11,12 @@ def download(key):
     base_url = 'https://www.youtube.com/watch?v='
     url = f'{base_url}{key}'
     cmds = [
-        f'youtube-dl --no-part --output ./videos/{key}.%(ext)s {url}'
-        f'youtube-dl --no-part --skip-download --all-subs --convert-subs ass --output ./subs/{key}.%(ext)s {url}'
-        f'youtube-dl --no-part --skip-download --write-auto-sub --all-subs --convert-subs ass --output ./autosubs/{key}.%(ext)s {url}'
+        f'youtube-dl --no-part --output ./videos/{key}.%(ext)s {url}',
+        f'youtube-dl --no-part --skip-download --all-subs --convert-subs ass --output ./subs/{key}.%(ext)s {url}',
+        f'youtube-dl --no-part --skip-download --write-auto-sub --all-subs --convert-subs ass --output ./autosubs/{key}.%(ext)s {url}',
     ]
     for cmd in cmds:
-        print(cmd, '\n')
+        print(cmd)
         subprocess.run(cmd, shell=True)
     
 
