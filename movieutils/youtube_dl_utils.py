@@ -12,14 +12,28 @@ def download(key):
     url = f'{base_url}{key}'
     cmds = [
         f'youtube-dl --no-part --output ./videos/{key}.%(ext)s {url}',
-        f'youtube-dl --no-part --skip-download --all-subs --convert-subs ass --output ./subs/{key}.%(ext)s {url}',
-        f'youtube-dl --no-part --skip-download --write-auto-sub --all-subs --convert-subs ass --output ./autosubs/{key}.%(ext)s {url}',
+        f'youtube-dl --no-part --skip-download --all-subs --output ./subs/{key}.%(ext)s {url}',
+        f'youtube-dl --no-part --skip-download --write-auto-sub --all-subs --output ./autosubs/{key}.%(ext)s {url}',
     ]
     for cmd in cmds:
         print(cmd)
         cmd = shlex.split(cmd)
         subprocess.run(cmd)
+    # convert subtitles to ass manually
+    for dir_name in ['subs', 'autosubs']:
+        for filepath in glob.glob(f'{dir_name}/*.vtt'):
+            p = pathlib.Path(filepath)
+            outp = p.parent / f'{p.stem}.ass'
+            cmd = f'ffmpeg -i {p} {outp}'
+            subprocess.run(cmd, shell=True)
+            p.unlink()
+
     
+def convert_subtitle_to_ass(inputpath, outputpath):
+    cmd = f'ffmpeg -i {inputpath} {outputpath}'
+    subprocess.run(cmd, shell=True)
+    return outputpath
+
 
 def load_key_sub_dict(language):
     sub_l = glob.glob(f'subs/*.{language}.ass')
@@ -44,11 +58,14 @@ def get_best_subtitle(key, language):
     return None
 
 def get_best_subtitle_or_en(key, language):
+    ass_subtitle_path 
     sub = get_best_subtitle(key, language)
+    if not sub:
+    return sub
+    # default: english subtitle
+    sub = get_best_subtitle(key, 'en')
     if sub:
         return sub
-    # default: english subtitle
-    return get_best_subtitle(key, 'en')
 
 
 def load_key_video_dict():

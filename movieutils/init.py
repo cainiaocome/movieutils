@@ -34,6 +34,9 @@ rm -rf subs/*
 mkdir -p autosubs
 rm -rf autosubs/*
 
+mkdir -p bestsubs
+rm -rf bestsubs/*
+
 rm -rf aisiji
 git clone https://github.com/cainiaocome/aisiji.git
 
