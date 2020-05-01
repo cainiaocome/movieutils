@@ -2,15 +2,34 @@
 
 import traceback
 import tmdbsimple as tmdb
+from .youtube_dl_utils import download, load_key_video_dict
 
 def get_movie_detail(tmdb_movie_id):
     movie = tmdb.Movies(tmdb_movie_id)
-    info = movie.info()
-    videos = movie.videos()['results']
-    info['videos'] = videos
+    movie_detail = movie.info()
+
     translations = movie.translations()['translations']
-    info['translations'] = translations
-    return info
+    movie_detail['translations'] = translations
+    translation = is_translation_available(movie_detail)
+    if not translation:
+        return None
+
+    videos = movie.videos()['results']
+    movie_detail['videos'] = videos
+    best_video = get_best_video(movie_detail)
+    if not bool(best_video):
+        return None
+
+    key = best_video['key']
+    download(key)
+    key_video_dict = load_key_video_dict()
+    video_input = key_video_dict.get(key, '')
+    if not video_input:
+        return None
+    movie_detail['video_input'] = video_input
+    movie_detail['subtitle'] = get_best_subtitle_or_en(key, 'zh-Hans')
+
+    return movie_detail
 
 
 # 根据条件筛选出一个列表
@@ -25,7 +44,8 @@ def get_movie_agg(d_d, pages):
         for movie in movie_l:
             try:
                 detail = get_movie_detail(movie['id'])
-                movie_agg.append(detail)
+                if detail:
+                    movie_agg.append(detail)
             except:
                 print('-'*30)
                 traceback.print_exc()
