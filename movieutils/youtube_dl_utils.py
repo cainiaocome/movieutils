@@ -60,7 +60,6 @@ def get_best_subtitle(key, language):
     return None
 
 def get_best_subtitle_or_en(key, language):
-    ass_subtitle_path 
     sub = get_best_subtitle(key, language)
     if sub:
         return sub
