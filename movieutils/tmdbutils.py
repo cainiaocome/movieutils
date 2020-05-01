@@ -34,7 +34,7 @@ def get_movie_detail(tmdb_movie_id):
 
 
 # 根据条件筛选出一个列表
-def get_movie_agg(d_d, pages):
+def get_movie_agg(d_d, pages, max_required_results=10):
     movie_agg = []
     for page in range(1, pages):
         d_d['page'] = page
@@ -47,6 +47,8 @@ def get_movie_agg(d_d, pages):
                 detail = get_movie_detail(movie['id'])
                 if detail:
                     movie_agg.append(detail)
+                if len(movie_agg)>=max_required_results:
+                    return movie_agg
             except:
                 print('-'*30)
                 traceback.print_exc()
