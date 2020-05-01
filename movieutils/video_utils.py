@@ -33,7 +33,9 @@ def concat(video_inputs, title_l, subtitle_l, output_file):
         in_file = ffmpeg.input(f)
         in_file_video = in_file.video
         if subtitle:
-            in_file_video = in_file_video.filter('subtitles', filename=str(subtitle), fontsdir='fonts', force_style='FontName=NotoSansSC-Medium,PrimaryColour=&HCCFF0000')
+            # http://docs.aegisub.org/3.2/ASS_Tags/
+            # https://forum.videohelp.com/threads/321469-Colors-in-Hexadecimals-for-ASS-%28subtitle%29
+            in_file_video = in_file_video.filter('subtitles', filename=str(subtitle), fontsdir='fonts', force_style='FontName=NotoSansSC-Medium,PrimaryColour=&HFFFF00')
         in_file_l.append(in_file_video
                          .filter('scale', width=1920, height=-2)
                          .filter('pad', width=1920, height=1080, x='(ow-iw)/2', y='(oh-ih)/2')
