@@ -23,13 +23,13 @@ def download(key):
 
 def load_key_sub_dict(language):
     sub_l = glob.glob(f'subs/*.{language}.ass')
-    key_l = [f.name.split('.')[0] f in sub_l]
+    key_l = [f.name.split('.')[0] for f in sub_l]
     return dict(zip(key_l, sub_l))
 
 
 def load_key_autosub_dict(language):
     sub_l = glob.glob(f'autosubs/*.{language}.ass')
-    key_l = [f.name.split('.')[0] f in sub_l]
+    key_l = [f.name.split('.')[0] for f in sub_l]
     return dict(zip(key_l, sub_l))
 
 def get_best_subtitle(key, language):
