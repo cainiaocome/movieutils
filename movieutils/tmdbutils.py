@@ -48,13 +48,13 @@ def get_movie_agg(d_d, pages, max=10):
                 if detail:
                     movie_agg.append(detail)
                 if len(movie_agg)>=max:
-                    return sorted(movie_agg, lambda movie:bool(movie['subtitle']), reverse=True)
+                    return sorted(movie_agg, key=lambda movie:bool(movie['subtitle']), reverse=True)
             except:
                 print('-'*30)
                 traceback.print_exc()
                 pprint(movie)
                 print('-'*30)
-    return sorted(movie_agg, lambda movie:bool(movie['subtitle']), reverse=True)
+    return sorted(movie_agg, key=lambda movie:bool(movie['subtitle']), reverse=True)
 
 
 # 过滤video信息，只选择Trailer, Teaser, Clip, 并且youtube 720P以上的video

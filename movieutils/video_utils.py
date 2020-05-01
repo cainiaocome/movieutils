@@ -33,7 +33,7 @@ def concat(video_inputs, title_l, subtitle_l, output_file):
         in_file = ffmpeg.input(f)
         in_file_video = in_file.video
         if subtitle:
-            in_file_video = in_file_video.filter('ass', filename=str(subtitle), force_style='FontName=DejaVu Serif,PrimaryColour=&HCCFF0000')
+            in_file_video = in_file_video.filter('ass', filename=str(subtitle), fontsdir='/usr/share/fonts/', force_style='FontName=DejaVu Serif,PrimaryColour=&HCCFF0000')
             #in_file_video = in_file_video.filter('ass', filename=str(subtitle), force_style='FontName=fonts/NotoSansSC-Medium,PrimaryColour=&HCCFF0000')
             #in_file_video = in_file_video.filter('ass', filename=str(subtitle), fontsdir='/usr/share/fonts/truetype/dejavu/')
         in_file_l.append(in_file_video
