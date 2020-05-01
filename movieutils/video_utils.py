@@ -13,10 +13,11 @@ from concurrent.futures import ProcessPoolExecutor
 from pydub import AudioSegment
 from .config import videos_dir, video_prefix_path, video_segment_path, fontfile
 
-def concat(video_inputs, title_l, output_file):
+def concat(video_inputs, title_l, subtitle_l, output_file):
     '''
     video_inputs: video file path list
     title_l: title list for each video
+    subtitle_l: subtitle list for each video
     '''
 
     n = len(video_inputs)
@@ -28,9 +29,14 @@ def concat(video_inputs, title_l, output_file):
     in_file_l = [video_prefix.video, video_prefix.audio]
     
     # segments
-    for f,title,(after_trim_start,after_trim_end) in zip(video_inputs, title_l, start_end_l):
+    for f,title,subtitle,(after_trim_start,after_trim_end) in zip(video_inputs, title_l, subtitle_l, start_end_l):
         in_file = ffmpeg.input(f)
-        in_file_l.append(in_file.video
+        in_file_video = in_file.video
+        if subtitle:
+            #in_file_video = in_file_video.filter('ass', filename=str(subtitle), force_style='FontName=DejaVu Serif,PrimaryColour=&HCCFF0000')
+            #in_file_video = in_file_video.filter('ass', filename=str(subtitle), force_style='FontName=fonts/NotoSansSC-Medium,PrimaryColour=&HCCFF0000')
+            in_file_video = in_file_video.filter('ass', filename=str(subtitle), fontsdir='/usr/share/fonts/truetype/dejavu/')
+        in_file_l.append(in_file_video
                          .filter('scale', width=1920, height=-2)
                          .filter('pad', width=1920, height=1080, x='(ow-iw)/2', y='(oh-ih)/2')
                          .filter('setdar', dar=16/9)
