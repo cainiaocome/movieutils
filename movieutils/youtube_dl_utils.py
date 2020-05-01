@@ -60,12 +60,10 @@ def get_best_subtitle(key, language):
 def get_best_subtitle_or_en(key, language):
     ass_subtitle_path 
     sub = get_best_subtitle(key, language)
-    if not sub:
-    return sub
-    # default: english subtitle
-    sub = get_best_subtitle(key, 'en')
     if sub:
         return sub
+    # default: english subtitle
+    return get_best_subtitle(key, 'en')
 
 
 def load_key_video_dict():
