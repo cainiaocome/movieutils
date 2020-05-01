@@ -2,7 +2,8 @@
 
 import traceback
 import tmdbsimple as tmdb
-from .youtube_dl_utils import download, load_key_video_dict
+from pprint import pprint
+from .youtube_dl_utils import download, load_key_video_dict, get_best_subtitle_or_en
 
 def get_movie_detail(tmdb_movie_id):
     movie = tmdb.Movies(tmdb_movie_id)
