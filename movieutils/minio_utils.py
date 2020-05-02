@@ -26,6 +26,7 @@ class MyMinio():
         httpClient = urllib3.PoolManager(
             timeout=urllib3.Timeout.DEFAULT_TIMEOUT,
             cert_reqs='CERT_NONE',
+            maxsize=64,
             retries=urllib3.Retry(
                 total=5,
                 backoff_factor=0.2,
