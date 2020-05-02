@@ -18,11 +18,22 @@ from minio.error import ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyExi
 urllib3.disable_warnings()
 
 
+def simple_minio_upload(filepath):
+    myminio = MyMinio()
+    MyMinio.upload(filepath)
+
+
+def simple_minio_upload_and_delete(filepath):
+    simple_minio_upload(filepath)
+    filepath = pathlib.Path(filepath)
+    filepath.unlink()
+
+
 class MyMinio:
 
-    def __init__(self, access_key, secret_key):
-        self.access_key = access_key
-        self.secret_key = secret_key
+    def __init__(self):
+        self.access_key = os.environ['access_key']
+        self.secret_key = os.environ['secret_key']
         self.upload_bucket = 'upload'
 
     def get_client(self):
@@ -76,16 +87,9 @@ class MyMinio:
         with ThreadPoolExecutor(32) as pool:
             r = list(pool.map(self.upload_chunk, jobs))
 
-    def upload_and_delete(self, filepath):
-        self.upload(filepath)
-        filepath = pathlib.Path(filepath)
-        filepath.unlink()
-
     @staticmethod
     def init_minio_buckets():
-        access_key = os.environ['access_key']
-        secret_key = os.environ['secret_key']
-        myminio = MyMinio(access_key, secret_key)
+        myminio = MyMinio()
         minioClient = myminio.get_client()
         init_buckets = ['upload', 'output']
         for bucket in init_buckets:
@@ -99,7 +103,6 @@ class MyMinio:
                 raise
             except:
                 raise
-
 
     def download(self):
         minioClient = self.minioClient
@@ -115,5 +118,6 @@ class MyMinio:
         except:
             print('unkown err')
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     MyMinio.init_minio_buckets()
