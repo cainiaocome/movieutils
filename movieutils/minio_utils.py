@@ -57,7 +57,6 @@ class MyMinio():
                 )
             except:
                 traceback.print_exc()
-                time.sleep(1)
 
 
     def upload(self, filepath):
