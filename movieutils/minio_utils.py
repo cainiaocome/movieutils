@@ -25,10 +25,9 @@ class MyMinio():
 
     def get_client(self):
         httpClient = urllib3.PoolManager(
-            timeout=urllib3.Timeout.DEFAULT_TIMEOUT,
+            timeout=Timeout(7),
             cert_reqs='CERT_NONE',
             maxsize=64,
-            timeout=Timeout(7),
         )
         minioClient = Minio('jlzduck.duckdns.org:9000',
                             access_key=self.access_key,
