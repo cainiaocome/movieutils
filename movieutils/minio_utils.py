@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import io
 import urllib3
 import json
@@ -17,7 +18,8 @@ from minio.error import ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyExi
 urllib3.disable_warnings()
 
 
-class MyMinio():
+class MyMinio:
+
     def __init__(self, access_key, secret_key):
         self.access_key = access_key
         self.secret_key = secret_key
@@ -36,7 +38,6 @@ class MyMinio():
                             http_client=httpClient
                             )
         return minioClient
-        
 
     def upload_chunk(self, chunk):
         minioClient = self.get_client()
@@ -56,31 +57,48 @@ class MyMinio():
             except:
                 traceback.print_exc()
 
-
     def upload(self, filepath):
         filepath = pathlib.Path(filepath)
         p = filepath.read_bytes()
         md5 = hashlib.md5(p).hexdigest()
-        chunk_len = 2**10*32 # 32KB
+        chunk_len = 2**10*32  # 32KB
         chunks = [p[i:i+chunk_len] for i in range(0, len(p), chunk_len)]
         jobs = []
         for index, chunk in enumerate(chunks):
             job = {
-                'md5':md5,
-                'filename':filepath.name,
-                'index':index,
-                'index_count':len(chunks),
-                'chunk':chunk,
+                'md5': md5,
+                'filename': filepath.name,
+                'index': index,
+                'index_count': len(chunks),
+                'chunk': chunk,
             }
             jobs.append(job)
         with ThreadPoolExecutor(32) as pool:
             r = list(pool.map(self.upload_chunk, jobs))
 
-
     def upload_and_delete(self, filepath):
         self.upload(filepath)
         filepath = pathlib.Path(filepath)
         filepath.unlink()
+
+    @staticmethod
+    def init_minio_buckets():
+        access_key = os.environ['access_key']
+        secret_key = os.environ['secret_key']
+        myminio = MyMinio(access_key, secret_key)
+        minioClient = myminio.get_client()
+        init_buckets = ['upload', 'output']
+        for bucket in init_buckets:
+            try:
+                minioClient.make_bucket(bucket)
+            except BucketAlreadyOwnedByYou as err:
+                pass
+            except BucketAlreadyExists as err:
+                pass
+            except ResponseError as err:
+                raise
+            except:
+                raise
 
 
     def download(self):
@@ -96,3 +114,6 @@ class MyMinio():
             print(err)
         except:
             print('unkown err')
+
+if __name__=='__main__':
+    MyMinio.init_minio_buckets()
