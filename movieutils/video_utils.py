@@ -35,6 +35,7 @@ def concat(video_inputs, title_l, subtitle_l, output_file):
         if subtitle:
             # http://docs.aegisub.org/3.2/ASS_Tags/
             # https://forum.videohelp.com/threads/321469-Colors-in-Hexadecimals-for-ASS-%28subtitle%29
+            # https://www.computerhope.com/htmcolor.htm
             in_file_video = in_file_video.filter('subtitles', filename=str(subtitle), fontsdir='fonts', force_style='FontName=NotoSansSC-Medium,PrimaryColour=&HFFFF00')
         in_file_l.append(in_file_video
                          .filter('scale', width=1920, height=-2)
