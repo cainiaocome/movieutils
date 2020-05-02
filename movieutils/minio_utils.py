@@ -9,6 +9,7 @@ import traceback
 import pathlib
 import hashlib
 import uuid
+from urllib3.util.timeout import Timeout
 from concurrent.futures import ThreadPoolExecutor
 from minio import Minio
 from minio.error import ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyExists
@@ -27,11 +28,7 @@ class MyMinio():
             timeout=urllib3.Timeout.DEFAULT_TIMEOUT,
             cert_reqs='CERT_NONE',
             maxsize=64,
-            retries=urllib3.Retry(
-                total=5,
-                backoff_factor=0.2,
-                status_forcelist=[500, 502, 503, 504]
-            ),
+            timeout=Timeout(7),
         )
         minioClient = Minio('jlzduck.duckdns.org:9000',
                             access_key=self.access_key,
