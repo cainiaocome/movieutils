@@ -56,6 +56,7 @@ class MyMinio():
                     len(s),
                     part_size=2**30,
                 )
+                break
             except:
                 traceback.print_exc()
 
