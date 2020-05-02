@@ -20,7 +20,7 @@ urllib3.disable_warnings()
 
 def simple_minio_upload(filepath):
     myminio = MyMinio()
-    MyMinio.upload(filepath)
+    myminio.upload(filepath)
 
 
 def simple_minio_upload_and_delete(filepath):
