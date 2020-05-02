@@ -15,30 +15,34 @@ from minio.error import ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyExi
 
 urllib3.disable_warnings()
 
-httpClient = urllib3.PoolManager(
-    timeout=urllib3.Timeout.DEFAULT_TIMEOUT,
-    cert_reqs='CERT_NONE',
-    retries=urllib3.Retry(
-        total=5,
-        backoff_factor=0.2,
-        status_forcelist=[500, 502, 503, 504]
-    ),
-)
-
 
 class MyMinio():
     def __init__(self, access_key, secret_key):
-        self.minioClient = Minio('jlzduck.duckdns.org:9000',
-                            access_key=access_key,
-                            secret_key=secret_key,
+        self.access_key = access_key
+        self.secret_key = secret_key
+        self.upload_bucket = 'upload'
+
+    def get_client(self):
+        httpClient = urllib3.PoolManager(
+            timeout=urllib3.Timeout.DEFAULT_TIMEOUT,
+            cert_reqs='CERT_NONE',
+            retries=urllib3.Retry(
+                total=5,
+                backoff_factor=0.2,
+                status_forcelist=[500, 502, 503, 504]
+            ),
+        )
+        minioClient = Minio('jlzduck.duckdns.org:9000',
+                            access_key=self.access_key,
+                            secret_key=self.secret_key,
                             secure=True,
                             http_client=httpClient
                             )
-        self.upload_bucket = 'upload'
-
+        return minioClient
+        
 
     def upload_chunk(self, chunk):
-        minioClient = self.minioClient
+        minioClient = self.get_client()
         filename = chunk['filename']
         index = chunk['index']
         s = pickle.dumps(chunk)
