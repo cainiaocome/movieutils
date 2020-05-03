@@ -22,9 +22,7 @@ except:
 
 def simple_water_upload(filepath):
     water_saddr = 'https://jlzduck.duckdns.org:1314/file'
-    client_crt = 'movieutils/movieutils/client.crt'
-    client_key = 'movieutils/movieutils/client.key'
-    upload(filepath, water_saddr, client_crt, client_key)
+    upload(filepath, water_saddr)
 
 
 def simple_water_upload_and_delete(filepath):
@@ -33,13 +31,12 @@ def simple_water_upload_and_delete(filepath):
     p.unlink()
 
 
-def upload(inputfile, saddr, crt='client.crt', key='client.key'):
+def upload(inputfile, saddr):
     password = os.environ['water_password']
     def job_executor(job):
-        s = requests.session()
-        s.cert = (crt, key)
         while True:
             try:
+                s = requests.session()
                 r = s.post(saddr, json=job, timeout=7, verify=False)
                 r = r.json()
                 if r['status'] == True:
