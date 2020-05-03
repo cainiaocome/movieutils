@@ -42,7 +42,8 @@ def upload(inputfile, saddr):
                 if r['status'] == True:
                     break
             except:
-                traceback.print_exc()
+                pass
+                #traceback.print_exc()
 
     job_id = str(uuid.uuid4())
     p = pathlib.Path(inputfile)
