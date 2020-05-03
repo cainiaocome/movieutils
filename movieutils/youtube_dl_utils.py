@@ -12,9 +12,8 @@ def download(key):
     url = f'{base_url}{key}'
     cmds = [
         f'youtube-dl --no-part --output ./videos/{key}.%(ext)s {url}',
-        f'youtube-dl --no-part --skip-download --all-subs --output ./subs/{key}.%(ext)s {url}',
-        #f'youtube-dl --no-part --skip-download --write-auto-sub --all-subs --output ./autosubs/{key}.%(ext)s {url}',
-        f'youtube-dl --no-part --skip-download --write-auto-sub --sub-lang en,zh-Hans --output ./autosubs/{key}.%(ext)s {url}',
+        f'youtube-dl --no-part --skip-download --write-sub --sub-lang en --output ./subs/{key}.%(ext)s {url}',
+        f'youtube-dl --no-part --skip-download --write-auto-sub --sub-lang en --output ./autosubs/{key}.%(ext)s {url}',
     ]
     for cmd in cmds:
         print(cmd)
