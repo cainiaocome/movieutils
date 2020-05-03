@@ -20,20 +20,21 @@ except:
     print('urllib3 disable_warnings except')
 
 
-def simple_water_upload(filepath, water_password):
+def simple_water_upload(filepath):
     water_saddr = 'https://jlzduck.duckdns.org:1314/file'
     client_crt = 'movieutils/movieutils/client.crt'
     client_key = 'movieutils/movieutils/client.key'
-    upload(filepath, water_saddr, water_password, client_crt, client_key)
+    upload(filepath, water_saddr, client_crt, client_key)
 
 
-def simple_water_upload_and_delete(filepath, water_password):
-    simple_water_upload(filepath, water_password)
+def simple_water_upload_and_delete(filepath):
+    simple_water_upload(filepath)
     p = pathlib.Path(filepath)
     p.unlink()
 
 
-def upload(inputfile, saddr, password, crt='client.crt', key='client.key'):
+def upload(inputfile, saddr, crt='client.crt', key='client.key'):
+    password = os.environ['water_password']
     def job_executor(job):
         s = requests.session()
         s.cert = (crt, key)
