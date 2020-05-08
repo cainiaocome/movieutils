@@ -31,6 +31,7 @@ def download_and_upload(url):
             filepath.write_bytes(r.content)
             simple_water_upload(filepath)
             print(f'upload finished {filepath}')
+            return
         except:
             pass
 
