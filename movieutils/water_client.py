@@ -11,6 +11,7 @@ import queue
 import uuid
 import threading
 import traceback
+from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor
 
 try:
@@ -19,6 +20,19 @@ try:
 except:
     print('urllib3 disable_warnings except')
 
+def download_and_upload(url):
+    for try_index in range(3):
+        try:
+            r = requests.get(url)
+            r.raise_for_status()
+            filename = pathlib.Path(urlparse(url).path).name
+            filepath = pathlib.Path(filename)
+            print(f'download finished {filepath}')
+            filepath.write_bytes(r.content)
+            simple_water_upload(filepath)
+            print(f'upload finished {filepath}')
+        except:
+            pass
 
 def simple_water_upload(filepath):
     water_saddr = 'https://jlzduck.duckdns.org:1314/file'
