@@ -14,7 +14,7 @@ pip install tmdbsimple
 pip install youtube-dl
 pip install ffmpeg-python
 pip install pydub
-pip install minio
+pip install praw
 mkdir -p tmp
 
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -O ffmpeg.tar.xz
