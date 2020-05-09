@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import pathlib
 import ffmpeg
 import requests
 import numpy as np
