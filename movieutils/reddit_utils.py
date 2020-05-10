@@ -52,9 +52,3 @@ def scale_to_1080p(video):
             break
     factor = factor - 0.001
     return int(width*factor), int(height*factor)
-
-
-def make_background():
-    text = 'bilibili 卖女孩的小火柴'
-    outputfilepath = 'bg.png'
-    simple_make_wordcloud(text, 'sample_wordcloud.png', fonts_dir)
