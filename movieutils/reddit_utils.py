@@ -7,8 +7,11 @@ import numpy as np
 import pandas as pd
 
 reddit_base_url = 'https://www.reddit.com'
+
+
 def fill_url(url):
     return f'{reddit_base_url}{url}'
+
 
 def get_top_subreddits():
     r = requests.get('https://redditmetrics.com/files/2020-05-01.csv')
@@ -17,7 +20,7 @@ def get_top_subreddits():
 
     df = pd.read_csv('t.csv', encoding='iso-8859-1')
     df.sort_values('subs', ascending=False, inplace=True)
-    df_1m = df[df.subs>1000000]
+    df_1m = df[df.subs > 1000000]
 
     top_subreddits = list(df_1m.real_name)
     for s in top_subreddits:
@@ -25,13 +28,14 @@ def get_top_subreddits():
         print(f'{s:<20}    {url}')
     return top_subreddits
 
+
 def group_videos(videos, max_duration=180, max_videos=7):
     i = 0
-    while i<len(videos):
+    while i < len(videos):
         start = i
         addup_duration = 0
-        while addup_duration<180 and i<len(videos):
-            video = videos[i]              
+        while addup_duration < 180 and i < len(videos):
+            video = videos[i]
             probe_result = ffmpeg.probe(video)
             duration = float(probe_result['format']['duration'])
             addup_duration += duration
@@ -39,11 +43,18 @@ def group_videos(videos, max_duration=180, max_videos=7):
         end = i
         yield start, end
 
+
 def scale_to_1080p(video):
-    stream_0 = ffmpeg.probe(video)['streams'][0] # stream 0 must be video
+    stream_0 = ffmpeg.probe(video)['streams'][0]  # stream 0 must be video
     width, height = stream_0['width'], stream_0['height']
-    for factor in np.arange(0,4,0.001):
-        if width*factor>=1920 or height*factor>=1080:
+    for factor in np.arange(0, 4, 0.001):
+        if width*factor >= 1920 or height*factor >= 1080:
             break
     factor = factor - 0.001
     return int(width*factor), int(height*factor)
+
+
+def make_background():
+    text = 'bilibili 卖女孩的小火柴'
+    outputfilepath = 'bg.png'
+    simple_make_wordcloud(text, 'sample_wordcloud.png', fonts_dir)

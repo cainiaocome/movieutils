@@ -68,10 +68,3 @@ def find_all_supported_fonts(text, fonts_dir):
             continue
         if text_supported_by_font(text, f):
             yield f
-
-
-if __name__ == '__main__':
-    subprocess.run('rm -rf *.png', shell=True)
-    text = 'bilibili 卖女孩的小火柴'
-    fonts_dir = '/usr/share/fonts/opentype/'
-    simple_make_wordcloud(text, 'sample_wordcloud.png', fonts_dir)
