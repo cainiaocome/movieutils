@@ -12,6 +12,7 @@ cmds = '''
 apt install dtrx -y
 pip install tmdbsimple
 pip install youtube-dl
+pip install fonttools
 pip install ffmpeg-python
 pip install pydub
 pip install praw
@@ -23,22 +24,14 @@ cp ffmpeg-*-amd64-static/ffmpeg /usr/bin/ffmpeg
 cp ffmpeg-*-amd64-static/ffprobe /usr/bin/ffprobe
 
 mkdir -p videos
-rm -rf videos/*
-
 mkdir -p subs
-rm -rf subs/*
-
 mkdir -p autosubs
-rm -rf autosubs/*
-
 mkdir -p bestsubs
-rm -rf bestsubs/*
 
 rm -rf aisiji
 git clone https://github.com/cainiaocome/aisiji.git
 
 mkdir -p fonts/
-rm -rf fonts/*
 wget https://fonts.google.com/download?family=Noto%20Sans%20SC -O noto.zip
 dtrx noto.zip --one here
 cp noto/* fonts/
