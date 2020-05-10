@@ -6,6 +6,7 @@ import ffmpeg
 import requests
 import numpy as np
 import pandas as pd
+from .wordcloud_utils import simple_make_wordcloud
 
 reddit_base_url = 'https://www.reddit.com'
 
