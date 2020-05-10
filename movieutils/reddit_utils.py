@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import uuid
 import pathlib
 import ffmpeg
 import requests
@@ -52,3 +53,18 @@ def scale_to_1080p(video):
             break
     factor = factor - 0.001
     return int(width*factor), int(height*factor)
+
+
+def make_bg(bg_text, bg_file):
+    p = pathlib.Path(bg_file)
+    if p.exists():
+        p.unlink()
+    simple_make_wordcloud(bg_text, p)
+
+
+def copy_bg(bg_file):
+    bg_file = pathlib.Path(bg_file)
+    bg_file_data = bg_file.read_bytes()
+    copied_bg_file = pathlib.Path(f'/tmp/{uuid.uuid4()}{bg_file.suffix}')
+    copied_bg_file.write_bytes(bg_file_data)
+    return copied_bg_file
