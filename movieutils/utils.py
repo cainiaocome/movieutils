@@ -17,7 +17,7 @@ def rmdir(d):
 
 notebook_start_time = time.time()
 def no_much_time_left():
-    return time.time()-notebook_start_time>7*3600:
+    return time.time()-notebook_start_time>7*3600
 
 ffsend_urls = []
 def ffsend(filepath):
