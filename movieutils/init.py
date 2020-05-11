@@ -10,12 +10,14 @@ def run(cmd):
 # libraries
 cmds = '''
 apt install dtrx -y
+apt install mcrypt -y
 pip install tmdbsimple
 pip install youtube-dl
 pip install fonttools
 pip install ffmpeg-python
 pip install pydub
 pip install praw
+pip install gspread
 mkdir -p tmp
 
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -O ffmpeg.tar.xz
