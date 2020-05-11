@@ -15,6 +15,10 @@ def run(cmd):
 def rmdir(d):
     shutil.rmtree(d, ignore_errors=True) 
 
+notebook_start_time = time.time()
+def no_much_time_left():
+    return time.time()-notebook_start_time>7*3600:
+
 ffsend_urls = []
 def ffsend(filepath):
     cmd = f'ffsend upload --no-interact --expiry-time 1d {filepath}'.split()
