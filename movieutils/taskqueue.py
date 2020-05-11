@@ -58,7 +58,7 @@ class TaskQueueManager:
 
 if __name__ == '__main__':
     tasks = ['s1', 's2', 's3']
-    reddit_taskmanager = TaskQueueManager('reddit')
+    reddit_taskmanager = TaskQueueManager('test')
     reddit_taskmanager.set_current_week_tasks(tasks)
     while True:
         task = reddit_taskmanager.get_one_task()
