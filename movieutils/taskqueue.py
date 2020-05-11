@@ -21,7 +21,7 @@ def week_to_col(week):
     col = a1[:-1]
     return col
 
-class TaskManager:
+class TaskQueueManager:
     def __init__(self, tasktype):
         assert tasktype in ['reddit', 'movie']
         self.tasktype = tasktype
@@ -58,7 +58,7 @@ class TaskManager:
 
 if __name__ == '__main__':
     tasks = ['s1', 's2', 's3']
-    reddit_taskmanager = TaskManager('reddit')
+    reddit_taskmanager = TaskQueueManager('reddit')
     reddit_taskmanager.set_current_week_tasks(tasks)
     while True:
         task = reddit_taskmanager.get_one_task()
