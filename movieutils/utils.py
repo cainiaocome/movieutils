@@ -22,17 +22,17 @@ def no_much_time_left():
     return time.time()-notebook_start_time>7*3600
 
 import validators
-def iter_object_find_url(o):
+def iter_object_find_urls(o):
     def do_iter_object(o):
         if type(o) is str and validators.url(o):
             yield o
         elif type(o) is dict:
             for k,v in o.items():
-                for r in iter_object(v):
+                for r in iter_object_find_urls(v):
                     yield r
         elif type(o) is list:
             for i in o:
-                for r in iter_object(i):
+                for r in iter_object_find_urls(i):
                     yield r
         else:
             yield None
