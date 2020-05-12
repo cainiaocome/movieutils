@@ -20,19 +20,23 @@ notebook_start_time = time.time()
 def no_much_time_left():
     return time.time()-notebook_start_time>7*3600
 
+import validators
 def iter_object_find_url(o):
-    if type(o) is str and validators.url(o):
-        yield o
-    elif type(o) is dict:
-        for k,v in o.items():
-            for r in iter_object(v):
-                yield r
-    elif type(o) is list:
-        for i in o:
-            for r in iter_object(i):
-                yield r
-    else:
-        yield None
+    def do_iter_object(o):
+        if type(o) is str and validators.url(o):
+            yield o
+        elif type(o) is dict:
+            for k,v in o.items():
+                for r in iter_object(v):
+                    yield r
+        elif type(o) is list:
+            for i in o:
+                for r in iter_object(i):
+                    yield r
+        else:
+            yield None
+    all_urls = list(do_iter_object(o))
+    return list(filter(lambda x:x, all_urls))
 
 today = f'{datetime.now().date()}'
 run_session_id = str(uuid.uuid4())
