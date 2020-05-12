@@ -41,7 +41,9 @@ def iter_object_find_url(o):
 
 def safe_get_with_timeout(url, timeout=7):
     try:
-        return requests.get(url, timeout=timeout)
+        r = requests.get(url, timeout=timeout)
+        r.raise_for_stats()
+        return r
     except:
         return requests.Response()
 
