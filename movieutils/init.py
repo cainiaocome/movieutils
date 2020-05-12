@@ -18,6 +18,7 @@ pip install ffmpeg-python
 pip install pydub
 pip install praw
 pip install gspread
+pip install validators
 mkdir -p tmp
 
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -O ffmpeg.tar.xz

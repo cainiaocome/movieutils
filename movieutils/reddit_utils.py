@@ -27,7 +27,7 @@ def get_top_subreddits():
     top_subreddits = list(df_1m.real_name)
     for s in top_subreddits:
         url = f'https://www.reddit.com/r/{s}/top/?t=week'
-        print(f'{s:<20}    {url}')
+        print(f'{s:<30}    {url}')
     return top_subreddits
 
 
