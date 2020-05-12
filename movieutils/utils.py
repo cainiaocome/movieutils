@@ -8,6 +8,7 @@ import subprocess
 import time
 import uuid
 import validators
+import tempfile
 from datetime import datetime
 
 
@@ -46,6 +47,10 @@ def safe_get_with_timeout(url, timeout=7):
         return r
     except:
         return requests.Response()
+
+def new_temp_file(suffix):
+    tempdir = pathlib.Path(tempfile.gettempdir())
+    return tempdir / f'{uuid.uuid4()}{suffix}'
 
 today = f'{datetime.now().date()}'
 run_session_id = str(uuid.uuid4())
