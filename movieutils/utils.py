@@ -6,6 +6,7 @@ import shlex
 import subprocess
 import time
 import uuid
+import validators
 from datetime import datetime
 
 
@@ -19,33 +20,19 @@ notebook_start_time = time.time()
 def no_much_time_left():
     return time.time()-notebook_start_time>7*3600
 
-ffsend_urls = []
-def ffsend(filepath):
-    cmd = f'ffsend upload --no-interact --expiry-time 1d {filepath}'.split()
-    for try_index in range(7):
-        try:
-            output = subprocess.check_output(cmd)
-            url = output.decode('utf8').strip()
-            ffsend_urls.append(url)
-            return url
-        except:
-            print(f'ffsend upload {filepath} failed')
-            time.sleep(30)
-
-def ffsend_and_delete(filepath):
-    fp = str(filepath)
-    url = ffsend(filepath)
-    p = pathlib.Path(filepath)
-    p.unlink()
-    return url
-
-def last_ffsend():
-    '''
-    write all ffsend_urls to urls.txt and then ffsend this file, return the last one url
-    '''
-    urls_output = pathlib.Path('urls.txt')
-    urls_output.write_text('\n'.join(ffsend_urls))
-    return ffsend_and_delete(urls_output)
+def iter_object_find_url(o):
+    if type(o) is str and validators.url(o):
+        yield o
+    elif type(o) is dict:
+        for k,v in o.items():
+            for r in iter_object(v):
+                yield r
+    elif type(o) is list:
+        for i in o:
+            for r in iter_object(i):
+                yield r
+    else:
+        yield None
 
 today = f'{datetime.now().date()}'
 run_session_id = str(uuid.uuid4())
