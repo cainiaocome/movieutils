@@ -1,6 +1,7 @@
 #/usr/bin/env python
 
 import pathlib
+import requests
 import shutil
 import shlex
 import subprocess
@@ -37,6 +38,12 @@ def iter_object_find_url(o):
             yield None
     all_urls = list(do_iter_object(o))
     return list(filter(lambda x:x, all_urls))
+
+def safe_get_with_timeout(url, timeout=7):
+    try:
+        return requests.get(url, timeout=timeout)
+    except:
+        return requests.Response()
 
 today = f'{datetime.now().date()}'
 run_session_id = str(uuid.uuid4())
