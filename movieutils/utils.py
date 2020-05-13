@@ -52,5 +52,14 @@ def new_temp_file(suffix):
     tempdir = pathlib.Path(tempfile.gettempdir())
     return tempdir / f'{uuid.uuid4()}{suffix}'
 
+def add_prefix_and_segments_to_inputs(inputs):
+    from config import video_prefix_path, video_segment_path
+    r = [video_prefix_path]
+    for i in inputs:
+        r.append(i)
+        r.append(video_segment_path)
+    r.append(video_prefix_path)
+    return r
+
 today = f'{datetime.now().date()}'
 run_session_id = str(uuid.uuid4())
