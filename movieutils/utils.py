@@ -52,13 +52,20 @@ def new_temp_file(suffix):
     tempdir = pathlib.Path(tempfile.gettempdir())
     return tempdir / f'{uuid.uuid4()}{suffix}'
 
+def copy_file(filepath):
+    filepath = pathlib.Path(filepath)
+    filedata = filepath.read_bytes()
+    copied_file = new_temp_file(filepath.suffix)
+    copied_file.write_bytes(filedata)
+    return copied_file
+
 def add_prefix_and_segments_to_inputs(inputs):
     from .config import video_prefix_path, video_segment_path
-    r = [video_prefix_path]
+    r = [copy_file(video_prefix_path)]
     for i in inputs:
         r.append(i)
-        r.append(video_segment_path)
-    r.append(video_prefix_path)
+        r.append(copy_file(video_segment_path))
+    r.append(copy_file(video_prefix_path))
     return r
 
 today = f'{datetime.now().date()}'
