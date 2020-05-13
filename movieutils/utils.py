@@ -53,7 +53,7 @@ def new_temp_file(suffix):
     return tempdir / f'{uuid.uuid4()}{suffix}'
 
 def add_prefix_and_segments_to_inputs(inputs):
-    from config import video_prefix_path, video_segment_path
+    from .config import video_prefix_path, video_segment_path
     r = [video_prefix_path]
     for i in inputs:
         r.append(i)
