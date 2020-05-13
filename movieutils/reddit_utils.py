@@ -6,6 +6,7 @@ import ffmpeg
 import requests
 import numpy as np
 import pandas as pd
+from PIL import Image
 from .wordcloud_utils import simple_make_wordcloud
 
 reddit_base_url = 'https://www.reddit.com'
@@ -57,12 +58,18 @@ def scale_to_1080p(video):
 
 
 def make_bg(bg_text, bg_file):
+    make_black_bg(bg_file)  # disable wordcloud background for now
+    return
+
     p = pathlib.Path(bg_file)
     if p.exists():
         p.unlink()
     simple_make_wordcloud(bg_text, p)
 
-
+def make_black_bg(bg_file):
+    img = Image.new('RGB', (1920,1080), (0,0,0))
+    img.save(bg_file)
+         
 def copy_bg(bg_file):
     bg_file = pathlib.Path(bg_file)
     bg_file_data = bg_file.read_bytes()
