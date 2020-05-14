@@ -19,6 +19,7 @@ pip install pydub
 pip install praw
 pip install gspread
 pip install validators
+pip install google-api-python-client oauth2client progressbar2
 mkdir -p tmp
 
 # youtube-upload
