@@ -19,8 +19,13 @@ pip install pydub
 pip install praw
 pip install gspread
 pip install validators
-pip install youtube-upload
 mkdir -p tmp
+
+# youtube-upload
+wget https://github.com/tokland/youtube-upload/archive/master.zip
+unzip master.zip
+cd youtube-upload-master
+python setup.py install
 
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -O ffmpeg.tar.xz
 dtrx ffmpeg.tar.xz --one here
