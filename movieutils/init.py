@@ -25,8 +25,7 @@ mkdir -p tmp
 # youtube-upload
 wget https://github.com/tokland/youtube-upload/archive/master.zip
 unzip master.zip
-cd youtube-upload-master
-python setup.py install
+cd youtube-upload-master && python setup.py install
 
 # ffmpeg
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -O ffmpeg.tar.xz
