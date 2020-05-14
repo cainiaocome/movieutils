@@ -28,6 +28,7 @@ unzip master.zip
 cd youtube-upload-master
 python setup.py install
 
+# ffmpeg
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -O ffmpeg.tar.xz
 dtrx ffmpeg.tar.xz --one here
 cp ffmpeg-*-amd64-static/ffmpeg /usr/bin/ffmpeg
