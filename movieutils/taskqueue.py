@@ -10,9 +10,6 @@ import pandas as pd
 from itertools import product
 from datetime import datetime
 
-class NoTaskAvailable(Exception):
-    pass
-
 gc = gspread.oauth()
 sh = gc.open('tasks sync')
 
@@ -74,7 +71,7 @@ class TaskQueueManager:
         required_timedelta = time_filter_timedelta_map[time_filter]
         tasks = tasks[(now-tasks['last'])>required_timedelta]
         if tasks.shape[0]==0:
-            raise NoTaskAvailable('no task available')
+            return None
         return list(tasks.name)[0]
 
     def set_one(self, name, time_filter):
