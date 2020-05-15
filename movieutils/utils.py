@@ -11,6 +11,12 @@ import validators
 import tempfile
 from datetime import datetime
 
+now = datetime.now()
+current_year = now.year
+current_week = pd.to_datetime(now).weekofyear
+
+today = f'{datetime.now().date()}'
+run_session_id = str(uuid.uuid4())
 
 def run(cmd):
     subprocess.run(cmd, shell=True)
@@ -67,6 +73,3 @@ def add_prefix_and_segments_to_inputs(inputs):
         r.append(copy_file(video_segment_path))
     r.append(copy_file(video_prefix_path))
     return r
-
-today = f'{datetime.now().date()}'
-run_session_id = str(uuid.uuid4())
