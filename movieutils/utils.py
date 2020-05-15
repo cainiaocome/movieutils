@@ -9,6 +9,7 @@ import time
 import uuid
 import validators
 import tempfile
+import pandas as pd
 from datetime import datetime
 
 now = datetime.now()
