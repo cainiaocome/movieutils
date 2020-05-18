@@ -32,6 +32,7 @@ wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.x
 dtrx ffmpeg.tar.xz --one here
 cp ffmpeg-*-amd64-static/ffmpeg /usr/bin/ffmpeg
 cp ffmpeg-*-amd64-static/ffprobe /usr/bin/ffprobe
+rm -rf ffmpeg*
 
 mkdir -p videos
 mkdir -p subs
@@ -45,6 +46,7 @@ mkdir -p fonts/
 wget https://fonts.google.com/download?family=Noto%20Sans%20SC -O noto.zip
 dtrx noto.zip --one here
 cp noto/*.otf fonts/
+rm -rf noto.zip
 
 git clone https://github.com/cainiaocome/movieutils.git
 '''
