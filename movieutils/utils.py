@@ -14,6 +14,7 @@ from datetime import datetime
 
 now = datetime.now()
 current_year = now.year
+current_month = now.month
 current_week = pd.to_datetime(now).weekofyear
 
 today = f'{datetime.now().date()}'
