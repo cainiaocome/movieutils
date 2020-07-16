@@ -75,3 +75,10 @@ def add_prefix_and_segments_to_inputs(inputs):
         r.append(copy_file(video_segment_path))
     r.append(copy_file(video_prefix_path))
     return r
+
+def load_file_lines(filepath):
+    p = pathlib.Path(filepath)
+    s = p.read_text()
+    lines = s.splitlines()
+    lines = [line.strip() for line in lines]
+    return list(filter(lambda line:line, lines))
