@@ -1,5 +1,6 @@
 #/usr/bin/env python
 
+import json
 import pathlib
 import requests
 import shutil
@@ -82,3 +83,12 @@ def load_file_lines(filepath):
     lines = s.splitlines()
     lines = [line.strip() for line in lines]
     return list(filter(lambda line:line, lines))
+
+def load_json(filepath):
+    p = pathlib.Path(filepath)
+    s = p.read_text()
+    return json.loads(s)
+
+def dump_json(data, filepath):
+    p = pathlib.Path(filepath)
+    p.write_text(json.dumps(data))
